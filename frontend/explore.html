@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore NFTs - OpenSea Clone</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzYzNjZmMSIvPgo8cGF0aCBkPSJNMTYgOEwxMiAxMkwxNiAxNkwxMiAyMEwxNiAyNEwyMCAyMEwxNiAxNkwyMCAxMkwxNiA4WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html">
+                    <i class="fas fa-cube"></i>
+                    <span>OpenSea Clone</span>
+                </a>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="explore.html" class="nav-link active">
+                    <i class="fas fa-compass"></i>
+                    <span>Explore</span>
+                </a>
+                <a href="mint.html" class="nav-link">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Create</span>
+                </a>
+                <a href="profile.html" class="nav-link">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+            </div>
+            
+            <div class="nav-actions">
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search NFTs, collections, and accounts..." class="search-input" id="search-input">
+                </div>
+                <button class="connect-wallet-btn" id="connect-wallet">
+                    <i class="fas fa-wallet"></i>
+                    <span>Connect Wallet</span>
+                </button>
+            </div>
+            
+            <div class="mobile-menu-toggle" id="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Explore Header -->
+    <section class="explore-header">
+        <div class="container">
+            <div class="explore-header-content">
+                <h1 class="explore-title">Explore NFTs</h1>
+                <p class="explore-subtitle">Discover, buy, and sell extraordinary NFTs</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters and Search -->
+    <section class="filters-section">
+        <div class="container">
+            <div class="filters-container">
+                <div class="filters-left">
+                    <div class="filter-group">
+                        <label class="filter-label">Sort by</label>
+                        <select class="filter-select" id="sort-select">
+                            <option value="recently-listed">Recently Listed</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="most-viewed">Most Viewed</option>
+                            <option value="oldest">Oldest First</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Category</label>
+                        <select class="filter-select" id="category-select">
+                            <option value="all">All Categories</option>
+                            <option value="art">Art</option>
+                            <option value="music">Music</option>
+                            <option value="gaming">Gaming</option>
+                            <option value="collectibles">Collectibles</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Price Range</label>
+                        <div class="price-range">
+                            <input type="number" placeholder="Min ETH" class="price-input" id="min-price">
+                            <span class="price-separator">to</span>
+                            <input type="number" placeholder="Max ETH" class="price-input" id="max-price">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="filters-right">
+                    <button class="btn btn-secondary" id="clear-filters">
+                        <i class="fas fa-times"></i>
+                        Clear Filters
+                    </button>
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="grid">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button class="view-btn" data-view="list">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results-section">
+        <div class="container">
+            <div class="results-header">
+                <div class="results-info">
+                    <h3 class="results-title">NFTs</h3>
+                    <p class="results-count" id="results-count">Loading...</p>
+                </div>
+                <div class="results-actions">
+                    <button class="btn btn-primary" id="load-more">
+                        <i class="fas fa-plus"></i>
+                        Load More
+                    </button>
+                </div>
+            </div>
+            
+            <div class="nfts-container">
+                <div class="nfts-grid" id="nfts-grid">
+                    <!-- NFTs will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NFT Detail Modal -->
+    <div id="nft-modal" class="modal">
+        <div class="modal-content nft-modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">NFT Details</h3>
+                <button class="modal-close" id="close-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="nft-detail-content">
+                    <div class="nft-detail-image">
+                        <img id="modal-nft-image" src="" alt="NFT">
+                    </div>
+                    <div class="nft-detail-info">
+                        <h4 id="modal-nft-name" class="nft-detail-name"></h4>
+                        <p id="modal-nft-description" class="nft-detail-description"></p>
+                        
+                        <div class="nft-detail-stats">
+                            <div class="nft-stat">
+                                <span class="stat-label">Creator</span>
+                                <span id="modal-nft-creator" class="stat-value"></span>
+                            </div>
+                            <div class="nft-stat">
+                                <span class="stat-label">Owner</span>
+                                <span id="modal-nft-owner" class="stat-value"></span>
+                            </div>
+                            <div class="nft-stat">
+                                <span class="stat-label">Price</span>
+                                <span id="modal-nft-price" class="stat-value price"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="nft-detail-actions">
+                            <button class="btn btn-primary btn-large" id="buy-nft">
+                                <i class="fas fa-shopping-cart"></i>
+                                Buy Now
+                            </button>
+                            <button class="btn btn-secondary btn-large" id="make-offer">
+                                <i class="fas fa-gavel"></i>
+                                Make Offer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <i class="fas fa-cube"></i>
+                        <span>OpenSea Clone</span>
+                    </div>
+                    <p class="footer-description">
+                        The world's largest digital marketplace for crypto collectibles and non-fungible tokens.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>Marketplace</h4>
+                    <ul>
+                        <li><a href="explore.html">All NFTs</a></li>
+                        <li><a href="mint.html">Create</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 OpenSea Clone. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/web3-config.js"></script>
+    <script src="js/explore.js"></script>
+</body>
+</html> 

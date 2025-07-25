@@ -1,0 +1,31 @@
+{
+  "name": "opensea-clone",
+  "version": "1.0.0",
+  "description": "A complete OpenSea clone NFT marketplace",
+  "main": "index.js",
+  "scripts": {
+    "dev": "live-server frontend",
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.js --network sepolia",
+    "test": "hardhat test"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.9.0",
+    "web3": "^1.10.0",
+    "ethers": "^5.7.2"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "hardhat": "^2.17.0",
+    "dotenv": "^16.0.3"
+  },
+  "keywords": [
+    "nft",
+    "marketplace",
+    "ethereum",
+    "solidity",
+    "web3"
+  ],
+  "author": "OpenSea Clone Developer",
+  "license": "MIT"
+} 

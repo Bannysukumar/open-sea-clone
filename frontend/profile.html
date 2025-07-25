@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - OpenSea Clone</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzYzNjZmMSIvPgo8cGF0aCBkPSJNMTYgOEwxMiAxMkwxNiAxNkwxMiAyMEwxNiAyNEwyMCAyMEwxNiAxNkwyMCAxMkwxNiA4WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html">
+                    <i class="fas fa-cube"></i>
+                    <span>OpenSea Clone</span>
+                </a>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="explore.html" class="nav-link">
+                    <i class="fas fa-compass"></i>
+                    <span>Explore</span>
+                </a>
+                <a href="mint.html" class="nav-link">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Create</span>
+                </a>
+                <a href="profile.html" class="nav-link active">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+            </div>
+            
+            <div class="nav-actions">
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search NFTs, collections, and accounts..." class="search-input" id="search-input">
+                </div>
+                <button class="connect-wallet-btn" id="connect-wallet">
+                    <i class="fas fa-wallet"></i>
+                    <span>Connect Wallet</span>
+                </button>
+            </div>
+            
+            <div class="mobile-menu-toggle" id="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Header -->
+    <section class="profile-header">
+        <div class="container">
+            <div class="profile-header-content">
+                <div class="profile-avatar">
+                    <div class="avatar-container">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <button class="edit-avatar-btn">
+                        <i class="fas fa-camera"></i>
+                    </button>
+                </div>
+                <div class="profile-info">
+                    <h1 class="profile-name" id="profile-name">Loading...</h1>
+                    <p class="profile-address" id="profile-address">Loading...</p>
+                    <div class="profile-actions">
+                        <button class="btn btn-secondary" id="edit-profile-btn">
+                            <i class="fas fa-edit"></i>
+                            Edit Profile
+                        </button>
+                        <button class="btn btn-primary" id="share-profile-btn">
+                            <i class="fas fa-share"></i>
+                            Share Profile
+                        </button>
+                        <button class="btn btn-outline" id="refresh-profile-btn" onclick="refreshProfile()">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profile Stats -->
+    <section class="profile-stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" id="owned-count">Loading...</h3>
+                        <p class="stat-label">Owned</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" id="created-count">Loading...</h3>
+                        <p class="stat-label">Created</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" id="sold-count">Loading...</h3>
+                        <p class="stat-label">Sold</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" id="earnings">Loading...</h3>
+                        <p class="stat-label">Earnings</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profile Content -->
+    <section class="profile-content">
+        <div class="container">
+            <div class="profile-tabs">
+                <div class="tab-navigation">
+                    <button class="tab-btn active" data-tab="owned">
+                        <i class="fas fa-cube"></i>
+                        <span>Owned</span>
+                    </button>
+                    <button class="tab-btn" data-tab="created">
+                        <i class="fas fa-palette"></i>
+                        <span>Created</span>
+                    </button>
+                    <button class="tab-btn" data-tab="listed">
+                        <i class="fas fa-tag"></i>
+                        <span>Listed</span>
+                    </button>
+                    <button class="tab-btn" data-tab="activity">
+                        <i class="fas fa-history"></i>
+                        <span>Activity</span>
+                    </button>
+                </div>
+
+                <!-- Owned NFTs Tab -->
+                <div class="tab-content active" id="owned-tab">
+                    <div class="tab-header">
+                        <h3>Owned NFTs</h3>
+                        <div class="tab-actions">
+                            <button class="btn btn-secondary" id="list-all-btn">
+                                <i class="fas fa-tag"></i>
+                                List All
+                            </button>
+                        </div>
+                    </div>
+                    <div class="nfts-grid" id="owned-nfts">
+                        <!-- Owned NFTs will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Created NFTs Tab -->
+                <div class="tab-content" id="created-tab">
+                    <div class="tab-header">
+                        <h3>Created NFTs</h3>
+                        <div class="tab-actions">
+                            <button class="btn btn-primary" onclick="window.location.href='mint.html'">
+                                <i class="fas fa-plus"></i>
+                                Create New
+                            </button>
+                        </div>
+                    </div>
+                    <div class="nfts-grid" id="created-nfts">
+                        <!-- Created NFTs will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Listed NFTs Tab -->
+                <div class="tab-content" id="listed-tab">
+                    <div class="tab-header">
+                        <h3>Listed NFTs</h3>
+                        <div class="tab-actions">
+                            <button class="btn btn-secondary" id="unlist-all-btn">
+                                <i class="fas fa-times"></i>
+                                Unlist All
+                            </button>
+                        </div>
+                    </div>
+                    <div class="nfts-grid" id="listed-nfts">
+                        <!-- Listed NFTs will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Activity Tab -->
+                <div class="tab-content" id="activity-tab">
+                    <div class="tab-header">
+                        <h3>Activity</h3>
+                        <div class="tab-actions">
+                            <button class="btn btn-secondary" id="export-activity-btn">
+                                <i class="fas fa-download"></i>
+                                Export
+                            </button>
+                        </div>
+                    </div>
+                    <div class="activity-list" id="activity-list">
+                        <!-- Activity will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Edit Profile Modal -->
+    <div id="edit-profile-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <i class="fas fa-edit"></i>
+                    Edit Profile
+                </h3>
+                <button class="modal-close" id="close-edit-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-profile-form" class="edit-profile-form">
+                    <div class="form-group">
+                        <label for="edit-name">Display Name</label>
+                        <input type="text" id="edit-name" name="name" placeholder="Enter your display name">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-bio">Bio</label>
+                        <textarea id="edit-bio" name="bio" rows="4" placeholder="Tell us about yourself..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-website">Website</label>
+                        <input type="url" id="edit-website" name="website" placeholder="https://yourwebsite.com">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancel-edit-btn">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transfer NFT Modal -->
+    <div id="transfer-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <i class="fas fa-exchange-alt"></i>
+                    Transfer NFT
+                </h3>
+                <button class="modal-close" id="close-transfer-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="transfer-form" class="transfer-form">
+                    <div class="form-group">
+                        <label for="transfer-address">Recipient Address</label>
+                        <input type="text" id="transfer-address" name="address" placeholder="0x..." required>
+                        <span class="form-hint">Enter the Ethereum address to transfer the NFT to</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="transfer-nft">NFT</label>
+                        <select id="transfer-nft" name="nft" required>
+                            <option value="">Select an NFT to transfer</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancel-transfer-btn">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Transfer NFT</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <i class="fas fa-cube"></i>
+                        <span>OpenSea Clone</span>
+                    </div>
+                    <p class="footer-description">
+                        The world's largest digital marketplace for crypto collectibles and non-fungible tokens.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>Marketplace</h4>
+                    <ul>
+                        <li><a href="explore.html">All NFTs</a></li>
+                        <li><a href="mint.html">Create</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 OpenSea Clone. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/web3-config.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+</html> 

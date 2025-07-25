@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create NFT - OpenSea Clone</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzYzNjZmMSIvPgo8cGF0aCBkPSJNMTYgOEwxMiAxMkwxNiAxNkwxMiAyMEwxNiAyNEwyMCAyMEwxNiAxNkwyMCAxMkwxNiA4WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html">
+                    <i class="fas fa-cube"></i>
+                    <span>OpenSea Clone</span>
+                </a>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="explore.html" class="nav-link">
+                    <i class="fas fa-compass"></i>
+                    <span>Explore</span>
+                </a>
+                <a href="mint.html" class="nav-link active">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Create</span>
+                </a>
+                <a href="profile.html" class="nav-link">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+            </div>
+            
+            <div class="nav-actions">
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search NFTs, collections, and accounts..." class="search-input" id="search-input">
+                </div>
+                <button class="connect-wallet-btn" id="connect-wallet">
+                    <i class="fas fa-wallet"></i>
+                    <span>Connect Wallet</span>
+                </button>
+            </div>
+            
+            <div class="mobile-menu-toggle" id="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Create Header -->
+    <section class="create-header">
+        <div class="container">
+            <div class="create-header-content">
+                <h1 class="create-title">Create Your NFT</h1>
+                <p class="create-subtitle">Upload your digital artwork and mint it as an NFT on the blockchain</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Create Form -->
+    <section class="create-section">
+        <div class="container">
+            <div class="create-container">
+                <div class="create-form-container">
+                    <form id="mint-form" class="create-form">
+                        <div class="form-section">
+                            <h3 class="form-section-title">
+                                <i class="fas fa-upload"></i>
+                                Upload File
+                            </h3>
+                            <div class="file-upload-container">
+                                <div class="file-upload-area" id="file-upload-area">
+                                    <div class="upload-icon">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                    </div>
+                                    <h4>Upload your file</h4>
+                                    <p>PNG, GIF, WEBP, MP4 or MP3. Max 100MB.</p>
+                                    <input type="file" id="nft-file" accept="image/*,video/*,audio/*" hidden>
+                                    <button type="button" class="btn btn-secondary" id="select-file-btn">
+                                        Choose File
+                                    </button>
+                                </div>
+                                <div class="file-preview" id="file-preview" style="display: none;">
+                                    <img id="file-preview-img" src="" alt="Preview">
+                                    <button type="button" class="remove-file-btn" id="remove-file-btn">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="form-section-title">
+                                <i class="fas fa-info-circle"></i>
+                                NFT Details
+                            </h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="nft-name">Name *</label>
+                                    <input type="text" id="nft-name" name="name" placeholder="Enter NFT name" required>
+                                    <span class="error-message" id="name-error"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nft-symbol">Symbol</label>
+                                    <input type="text" id="nft-symbol" name="symbol" placeholder="e.g., MYNFT" maxlength="10">
+                                    <span class="error-message" id="symbol-error"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="nft-description">Description</label>
+                                <textarea id="nft-description" name="description" rows="4" placeholder="Describe your NFT..."></textarea>
+                                <span class="error-message" id="description-error"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="form-section-title">
+                                <i class="fas fa-tags"></i>
+                                Properties
+                            </h3>
+                            <div class="properties-container">
+                                <div class="property-item">
+                                    <div class="property-inputs">
+                                        <input type="text" placeholder="Type" class="property-type">
+                                        <input type="text" placeholder="Name" class="property-name">
+                                        <button type="button" class="remove-property-btn">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-secondary btn-small" id="add-property-btn">
+                                    <i class="fas fa-plus"></i>
+                                    Add Property
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="form-section-title">
+                                <i class="fas fa-dollar-sign"></i>
+                                Price & Royalties
+                            </h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="nft-price">Price (ETH) *</label>
+                                    <input type="number" id="nft-price" name="price" placeholder="0.00" step="0.01" min="0" required>
+                                    <span class="error-message" id="price-error"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nft-royalties">Creator Royalties (%)</label>
+                                    <input type="number" id="nft-royalties" name="royalties" placeholder="2.5" step="0.1" min="0" max="50">
+                                    <span class="error-message" id="royalties-error"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="form-section-title">
+                                <i class="fas fa-cog"></i>
+                                Advanced Settings
+                            </h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="nft-supply">Supply</label>
+                                    <input type="number" id="nft-supply" name="supply" placeholder="1" min="1" value="1">
+                                    <span class="form-hint">Maximum supply for this NFT</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nft-category">Category</label>
+                                    <select id="nft-category" name="category">
+                                        <option value="art">Art</option>
+                                        <option value="music">Music</option>
+                                        <option value="gaming">Gaming</option>
+                                        <option value="collectibles">Collectibles</option>
+                                        <option value="photography">Photography</option>
+                                        <option value="sports">Sports</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" id="save-draft-btn">
+                                <i class="fas fa-save"></i>
+                                Save Draft
+                            </button>
+                            <button type="submit" class="btn btn-primary btn-large" id="mint-nft-btn">
+                                <i class="fas fa-magic"></i>
+                                Create NFT
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="create-preview-container">
+                    <div class="preview-card">
+                        <h3 class="preview-title">
+                            <i class="fas fa-eye"></i>
+                            Preview
+                        </h3>
+                        <div class="preview-content">
+                            <div class="preview-image" id="preview-image">
+                                <div class="preview-placeholder">
+                                    <i class="fas fa-image"></i>
+                                    <p>Upload a file to see preview</p>
+                                </div>
+                            </div>
+                            <div class="preview-info">
+                                <h4 id="preview-name" class="preview-nft-name">NFT Name</h4>
+                                <p id="preview-description" class="preview-nft-description">Description will appear here...</p>
+                                <div class="preview-details">
+                                    <div class="preview-detail">
+                                        <span class="detail-label">Price:</span>
+                                        <span id="preview-price" class="detail-value">0 ETH</span>
+                                    </div>
+                                    <div class="preview-detail">
+                                        <span class="detail-label">Creator:</span>
+                                        <span id="preview-creator" class="detail-value">Your Address</span>
+                                    </div>
+                                    <div class="preview-detail">
+                                        <span class="detail-label">Category:</span>
+                                        <span id="preview-category" class="detail-value">Art</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content success-modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <i class="fas fa-check-circle"></i>
+                    NFT Created Successfully!
+                </h3>
+                <button class="modal-close" id="close-success-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="success-content">
+                    <div class="success-nft">
+                        <img id="success-nft-image" src="" alt="Created NFT">
+                        <h4 id="success-nft-name"></h4>
+                        <p id="success-nft-price"></p>
+                    </div>
+                    <div class="success-actions">
+                        <button class="btn btn-primary" id="view-nft-btn">
+                            <i class="fas fa-eye"></i>
+                            View NFT
+                        </button>
+                        <button class="btn btn-secondary" id="create-another-btn">
+                            <i class="fas fa-plus"></i>
+                            Create Another
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loading-modal" class="modal">
+        <div class="modal-content loading-modal-content">
+            <div class="loading-spinner"></div>
+            <h3>Creating your NFT...</h3>
+            <p>Please wait while we mint your NFT on the blockchain</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <i class="fas fa-cube"></i>
+                        <span>OpenSea Clone</span>
+                    </div>
+                    <p class="footer-description">
+                        The world's largest digital marketplace for crypto collectibles and non-fungible tokens.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>Marketplace</h4>
+                    <ul>
+                        <li><a href="explore.html">All NFTs</a></li>
+                        <li><a href="mint.html">Create</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 OpenSea Clone. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/web3-config.js"></script>
+    <script src="js/mint.js"></script>
+</body>
+</html> 
